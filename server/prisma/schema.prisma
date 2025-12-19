@@ -1,0 +1,181 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  password   String
+  full_name  String
+  role       String   // 'client' | 'talent' | 'agency' | 'admin'
+  avatar_url String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  talent     Talent?
+  agency     Agency?
+  projects   Project[] @relation("ClientProjects")
+  tasks      Task[]    @relation("AssignedTasks")
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+}
+
+model Talent {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+  title             String
+  category          String   // 'developer' | 'designer' | 'marketing' | 'finance' | 'product_manager' | 'project_manager'
+  expertise         String   // JSON string or comma-separated
+  hourly_rate       Float?
+  experience_years  Int?
+  availability      String   @default("available") // 'available' | 'busy' | 'not_available'
+  bio               String?
+  skills            String?  // JSON string or comma-separated
+  previous_companies String? // JSON string or comma-separated
+  image_url         String?
+  location          String?
+  lat               Float?
+  lng               Float?
+  rating            Float?   @default(0)
+  completed_projects Int?    @default(0)
+  
+  teams             TeamMember[]
+  assignedProjects  Project[] @relation("AssignedTalent")
+}
+
+model Agency {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+  agency_name       String
+  description       String?
+  services          String?  // JSON string
+  industry_focus    String?  // JSON string
+  team_size         Int      @default(1)
+  min_project_size  Float?
+  hourly_rate_range String?
+  location          String?
+  lat               Float?
+  lng               Float?
+  founded_year      Int?
+  completed_projects Int?    @default(0)
+  rating            Float?   @default(0)
+  image_url         String?
+  
+  assignedProjects  Project[] @relation("AssignedAgency")
+}
+
+model Team {
+  id                String   @id @default(uuid())
+  team_name         String
+  description       String?
+  specialization    String   // 'full_stack_development' | 'mobile_development' | 'design_team' | 'marketing_team' | 'data_science' | 'devops' | 'ai_ml'
+  team_size         Int      @default(1)
+  hourly_rate       Float?
+  availability      String   @default("available")
+  completed_projects Int?    @default(0)
+  rating            Float?   @default(0)
+  image_url         String?
+  project_timeline  String?
+  expiration_date   DateTime?
+  location          String?
+  lat               Float?
+  lng               Float?
+
+  members           TeamMember[]
+  assignedProjects  Project[] @relation("AssignedTeam")
+}
+
+model TeamMember {
+  id       String @id @default(uuid())
+  teamId   String
+  talentId String
+  role     String?
+  
+  team     Team   @relation(fields: [teamId], references: [id])
+  talent   Talent @relation(fields: [talentId], references: [id])
+
+  @@unique([teamId, talentId])
+}
+
+model Project {
+  id           String   @id @default(uuid())
+  name         String
+  client_email String
+  clientId     String
+  client       User     @relation("ClientProjects", fields: [clientId], references: [id])
+  status       String   @default("active") // 'active' | 'completed' | 'on_hold'
+  start_date   DateTime @default(now())
+  description  String?
+  progress     Int      @default(0)
+  budget_spent Float?   @default(0)
+  total_budget Float?
+  next_milestone String?
+
+  assignedType String?  // 'talent' | 'team' | 'agency'
+  talentId     String?
+  talent       Talent?  @relation("AssignedTalent", fields: [talentId], references: [id])
+  teamId       String?
+  team         Team?    @relation("AssignedTeam", fields: [teamId], references: [id])
+  agencyId     String?
+  agency       Agency?  @relation("AssignedAgency", fields: [agencyId], references: [id])
+
+  whiteboard_url String?
+  srs_content  String?
+  srs_file_url String?
+  design_diagram_url String?
+
+  tasks        Task[]
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  title       String
+  description String?
+  status      String   @default("todo") // 'todo' | 'in_progress' | 'review' | 'done'
+  assigneeId  String?
+  assignee    User?    @relation("AssignedTasks", fields: [assigneeId], references: [id])
+  priority    String   @default("medium") // 'low' | 'medium' | 'high'
+  due_date    DateTime?
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  senderId    String
+  receiverId  String   // Can be a user ID or 'support'
+  content     String
+  timestamp   DateTime @default(now())
+  read        Boolean  @default(false)
+
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver    User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}
+
+model HireRequest {
+  id                  String   @id @default(uuid())
+  client_name         String
+  client_email        String
+  company_name        String?
+  hire_type           String   // 'talent' | 'team' | 'agency'
+  category            String?
+  project_description String?
+  budget              String?
+  timeline            String?
+  status              String   @default("pending") // 'pending' | 'reviewing' | 'matched' | 'completed' | 'cancelled'
+  matched_talent_id   String?
+  matched_team_id     String?
+  matched_agency_id   String?
+  createdAt           DateTime @default(now())
+}
