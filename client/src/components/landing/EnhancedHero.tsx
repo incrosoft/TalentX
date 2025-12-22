@@ -8,7 +8,7 @@ import Link from "next/link";
 import { createPageUrl } from "@/utils";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules"; // <--- صححت الاستيراد
+import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -137,7 +137,7 @@ export default function EnhancedHero() {
             {/* Decorative Elements */}
             <div className="absolute -top-20 -right-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
             <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-
+            {/* Floating Stats Card */}
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -165,10 +165,6 @@ export default function EnhancedHero() {
               slidesPerView={1}
               loop
               autoplay={{ delay: 3000, disableOnInteraction: false }}
-              navigation={{
-                nextEl: ".swiper-button-next-custom",
-                prevEl: ".swiper-button-prev-custom",
-              }}
               className="relative z-10"
             >
               {talents.map((talent, index) => (
@@ -183,6 +179,7 @@ export default function EnhancedHero() {
                       src={talent.image}
                       alt={talent.name}
                       className="w-full max-w-md mx-auto object-cover"
+                      loading="lazy"
                     />
 
                     {/* Overlay Gradient */}
@@ -215,19 +212,9 @@ export default function EnhancedHero() {
                         Previously at {talent.previous}
                       </p>
                     </div>
-
-                    {/* Floating Stats Card */}
                   </motion.div>
                 </SwiperSlide>
               ))}
-
-              {/* Custom Navigation Buttons */}
-              {/* <div className="swiper-button-next-custom absolute top-1/2 -right-0.5 z-20 w-10 h-10 bg-green-500 text-white flex items-center justify-center rounded-full cursor-pointer">
-                &#8250;
-              </div>
-              <div className="swiper-button-prev-custom absolute top-1/2 -left-0.1 z-20 w-10 h-10 bg-green-500 text-white flex items-center justify-center rounded-full cursor-pointer">
-                &#8249;
-              </div> */}
             </Swiper>
           </motion.div>
         </div>
