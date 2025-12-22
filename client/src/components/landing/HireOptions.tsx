@@ -38,7 +38,7 @@ export default function HireOptions() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="bg-white border border-gray-200 rounded-lg p-8 hover:shadow-xl transition-all group"
+                        className="bg-white border border-gray-200 rounded-lg p-8 hover:shadow-xl transition-all group flex flex-col h-full"
                     >
                         <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#204ecf] transition-colors">
                             <User className="w-6 h-6 text-[#204ecf] group-hover:text-white transition-colors" />
@@ -50,7 +50,7 @@ export default function HireOptions() {
                             Connect with individual experts who are in the top 3% of their field.
                             Perfect for focused expertise and flexible engagement.
                         </p>
-                        <Link href={createPageUrl('BrowseTalent')}>
+                        <Link href={createPageUrl('BrowseTalent')} className='mt-auto'>
                             <Button
                                 variant="outline"
                                 className="w-full border-[#204ecf] text-[#204ecf] hover:bg-[#204ecf] hover:text-white font-medium"
@@ -65,7 +65,7 @@ export default function HireOptions() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="bg-white border border-gray-200 rounded-lg p-8 hover:shadow-xl transition-all group"
+                        className="bg-white border border-gray-200 rounded-lg p-8 hover:shadow-xl transition-all group flex flex-col h-full"
                     >
                         <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#00c853] transition-colors">
                             <Users className="w-6 h-6 text-[#00c853] group-hover:text-white transition-colors" />
@@ -77,7 +77,7 @@ export default function HireOptions() {
                             Get ready-made teams with complementary skills.
                             They've already worked together and can start immediately.
                         </p>
-                        <Link href={createPageUrl('BrowseTeams')}>
+                        <Link href={createPageUrl('BrowseTeams')} className='mt-auto'>
                             <Button
                                 variant="outline"
                                 className="w-full border-[#00c853] text-[#00c853] hover:bg-[#00c853] hover:text-white font-medium"
@@ -92,7 +92,7 @@ export default function HireOptions() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="bg-white border border-gray-200 rounded-lg p-8 hover:shadow-xl transition-all group"
+                        className="bg-white border border-gray-200 rounded-lg p-8 hover:shadow-xl transition-all group flex flex-col h-full"
                     >
                         <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-purple-600 transition-colors">
                             <Building2 className="w-6 h-6 text-purple-600 group-hover:text-white transition-colors" />
@@ -104,7 +104,7 @@ export default function HireOptions() {
                             Partner with established agencies for end-to-end project delivery
                             with full project management and support.
                         </p>
-                        <Link href={createPageUrl('BrowseAgencies')}>
+                        <Link href={createPageUrl('BrowseAgencies')} className='mt-auto'>
                             <Button
                                 variant="outline"
                                 className="w-full border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-medium"
