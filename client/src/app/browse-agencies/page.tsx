@@ -12,6 +12,7 @@ import { createPageUrl } from '@/utils';
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 import { Pagination } from '@/components/ui/Pagination';
+import EnhancedHero from '@/components/landing/EnhancedHero';
 
 export default function BrowseAgencies() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -42,9 +43,9 @@ export default function BrowseAgencies() {
     );
 
     return (
-        <div className="min-h-screen bg-[#f5f7fa] pt-24 pb-12">
+        <div className="min-h-screen bg-[#f5f7fa]  pb-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Page Title */}
+                <EnhancedHero />
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

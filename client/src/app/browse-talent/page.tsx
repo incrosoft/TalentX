@@ -15,6 +15,7 @@ import AIMatchingModal from '@/components/AIMatchingModal';
 
 import { Pagination } from '@/components/ui/Pagination';
 import { Suspense } from 'react';
+import EnhancedHero from '@/components/landing/EnhancedHero';
 
 function BrowseTalentContent() {
     const searchParams = useSearchParams();
@@ -79,10 +80,11 @@ function BrowseTalentContent() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#f5f7fa] pt-24 pb-12">
+        <div className="min-h-screen bg-[#f5f7fa]  pb-12">
             <AIMatchingModal isOpen={isAIModalOpen} onClose={() => setIsAIModalOpen(false)} />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
+                <EnhancedHero />
                 <div className="mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="text-center md:text-left">
                         <h1 className="text-4xl font-bold text-[#1a1a2e] mb-4">Browse Top Talent</h1>
