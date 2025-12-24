@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
-import { prisma } from '../index';
-
+import { prisma } from '../index';;
+/**
+ * Returns a list of agencies with selected linked user info.
+ * */
 export const listAgencies = async (req: Request, res: Response) => {
     try {
         const agencies = await prisma.agency.findMany({
@@ -15,7 +17,7 @@ export const listAgencies = async (req: Request, res: Response) => {
             },
         });
 
-        const formattedAgencies = agencies.map((a) => ({
+        const formattedAgencies = agencies.map((a:any) => ({ // error: Parameter a implicitly has an any type. fix: added any type to Parameter a.
             ...a,
             services: JSON.parse(a.services || '[]'),
             industry_focus: JSON.parse(a.industry_focus || '[]'),
