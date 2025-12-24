@@ -11,6 +11,8 @@ import projectRoutes from './routes/projectRoutes';
 import taskRoutes from './routes/taskRoutes';
 import messageRoutes from './routes/messageRoutes';
 import hireRequestRoutes from './routes/hireRequestRoutes';
+import platformMetricsRoutes from './routes/platformMetricsRoutes';
+import testimonialRoutes from './routes/testimonialRoutes';
 
 dotenv.config();
 
@@ -35,6 +37,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/hire-requests', hireRequestRoutes);
+app.use('/api/platform-metrics', platformMetricsRoutes);
+app.use('/api/testimonials', testimonialRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
