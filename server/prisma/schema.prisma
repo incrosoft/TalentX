@@ -73,6 +73,7 @@ model Agency {
   image_url         String?
   
   assignedProjects  Project[] @relation("AssignedAgency")
+  testimonials      Testimonial[]
 }
 
 model Team {
@@ -178,4 +179,32 @@ model HireRequest {
   matched_team_id     String?
   matched_agency_id   String?
   createdAt           DateTime @default(now())
+}
+
+model PlatformMetrics {
+  id                  String   @id @default(uuid())
+  clients_served      Int      @default(0)
+  industries_served   Int      @default(0)
+  total_global_talent Int      @default(0)
+  countries_served    Int      @default(0)
+  success_rate        Float    @default(0)
+  years_experience    Int      @default(0)
+  updatedAt           DateTime @updatedAt
+  createdAt           DateTime @default(now())
+}
+
+model Testimonial {
+  id            String   @id @default(uuid())
+  client_name   String
+  company       String?
+  position      String?
+  content       String
+  rating        Int      @default(5) // 1-5 stars
+  avatar_url    String?
+  status        String   @default("pending") // 'pending' | 'approved' | 'rejected'
+  is_published  Boolean  @default(false)
+  agencyId      String?
+  agency        Agency?  @relation(fields: [agencyId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
