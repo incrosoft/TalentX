@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Talent, Agency, Team, Subscription, HireRequest, Project, Task, User, Message, UserRole } from '@/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000/api';
 
 const apiClient = axios.create({
     baseURL: API_URL,
