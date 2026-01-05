@@ -172,7 +172,7 @@ export const login = async (req: any, res: Response) => {
         httpOnly: true,
         sameSite: "lax",
       })
-      .json({ message: "Login successful", user: userCookieData });
+      .json({ message: "Login successful", user: userCookieData, token: userToken });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
