@@ -109,35 +109,56 @@ function BrowseTalentContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50/40 to-gray-100/60 pt-20 pb-16">
+    <div className="min-h-screen bg-linear-to-b from-white via-gray-50/40 to-gray-100/60 pt-12 pb-16">
       <AIMatchingModal
         isOpen={isAIModalOpen}
         onClose={() => setIsAIModalOpen(false)}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+          className="mb-12 flex flex-col md:flex-row justify-between items-center md:items-center gap-6 bg-[radial-gradient(circle_at_50%_35%,#12287a_0%,#010414_85%)] p-4 rounded-2xl"
         >
           <div className="text-center md:text-left space-y-3">
-            <h1 className="text-4xl sm:text-5xl font-bold text-[#1a1a2e] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl font-semibold text-white/80 tracking-tight">
               Browse Top Talent
             </h1>
-            <p className="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-500 max-w-xl leading-relaxed">
               Connect with the top 3% of freelance talent. Pre-vetted, expert
               professionals ready to join your team.
             </p>
           </div>
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="relative p-px overflow-hidden rounded-xl group " // The wrapper for the border beam
+          >
+            {/* 1. THE BORDER BEAM (The rotating light) */}
+            <motion.div
+              initial={{ rotate: 0 }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              style={{
+                background:
+                  "conic-gradient(from 0deg, transparent 80%, #204ecf 100%)",
+              }}
+              className="absolute inset-[-200%] aspect-square"
+            />
+
+            {/* 2. THE BUTTON BODY (Sits on top, 1px smaller to show the beam) */}
             <Button
               onClick={() => setIsAIModalOpen(true)}
-              className="bg-[#204ecf] hover:bg-[#1a3da8] text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg shadow-[#204ecf]/20 hover:shadow-[#204ecf]/30 flex items-center gap-2.5 transition-all duration-300"
+              className="relative z-10 bg-[#0a0f29] text-white font-semibold py-3.5 px-7 rounded-[11px] flex items-center gap-2.5 border-none w-full h-full hover:bg-[#0a0f29] cursor-pointer"
             >
-              <Sparkles className="w-5 h-5" />
-              AI Matcher
+              <Sparkles className="w-5 h-5 " />
+              <span className="tracking-tight">AI Matcher</span>
+
+              {/* 3. SUBTLE GLOW OVERLAY (Optional: Makes the border feel like it's emitting light) */}
+              <div className="absolute inset-0 rounded-[11px] shadow-[inset_0_0_15px_rgba(32,78,207,0.2)] pointer-events-none" />
             </Button>
           </motion.div>
         </motion.div>
