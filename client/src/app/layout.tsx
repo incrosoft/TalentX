@@ -1,13 +1,39 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
 import Providers from "@/providers";
 import { Toaster } from "@/components/ui/toaster";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: '--font-proxima', // Create a variable for use in Tailwind
+const proximaNova = localFont({
+  src: [
+    {
+      path: "../../public/fonts/ProximaNovaLight.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/ProximaNovaRegular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/ProximaNovaSemibold.otf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/ProximaNovaBold.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/ProximaNovaExtrabold.otf",
+      weight: "800",
+      style: "normal",
+    },
+  ],
+  variable: "--font-proxima",
 });
 
 export const metadata: Metadata = {
@@ -61,8 +87,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${montserrat.variable} font-sans`}>
+    <html lang="en" className={proximaNova.variable} suppressHydrationWarning>
+      <body className="antialiased">
         <Providers>
           <ClientLayout>
             <AuthInitializer />

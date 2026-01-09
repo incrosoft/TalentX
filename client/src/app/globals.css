@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
+
 :root {
-  /* Toptal-inspired Color Palette */
+  /* Color Palette */
   --primary: #204ecf;
   /* Deep Blue */
   --primary-foreground: #ffffff;
@@ -41,6 +42,9 @@
 
   --radius: 0.5rem;
 
+  --font-sans: var(--font-proxima), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono);
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -78,8 +82,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-sans: var(--font-proxima), sans-serif;
-  --font-mono: var(--font-geist-mono);
+  --color-ring: var(--ring);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -90,14 +93,14 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    /* Adjust other colors for dark mode if needed, but keeping light mode focus for Toptal style */
+    /* Adjust other colors for dark mode if needed, but keeping light mode focus for style */
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

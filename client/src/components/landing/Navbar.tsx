@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { logout } from '@/store/slices/authSlice';
 import { talentXApi } from '@/api/talentXApi';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { toast } from 'sonner';
 
 const megaMenuData = {
@@ -31,13 +31,13 @@ const megaMenuData = {
                     'Scala Developers', 'Unity Developers', 'WordPress Developers'
                 ]
             },
-            { id: 'designers', name: 'Designers', roles: ['UI/UX Designers', 'Product Designers', 'Graphic Designers', 'Brand Designers', 'Web Designers', 'Mobile App Designers'] },
-            { id: 'marketing', name: 'Marketing Experts', roles: ['SEO Specialists', 'Content Strategists', 'Growth Hackers', 'Social Media Managers', 'PPC Experts'] },
-            { id: 'management', name: 'Management Consultants', roles: ['Business Analysts', 'Financial Consultants', 'Strategic Advisors'] },
-            { id: 'researchers', name: 'Researchers', roles: ['Data Scientists', 'Research Scientists', 'UX Researchers', 'Market Researchers', 'AI Researchers', 'Clinical Researchers'] },
-            { id: 'project_managers', name: 'Project Managers', roles: ['Agile Project Managers', 'Scrum Masters', 'Technical Project Managers'] },
-            { id: 'product_managers', name: 'Product Managers', roles: ['Technical Product Managers', 'Growth Product Managers', 'Product Strategists'] },
-            { id: 'sales', name: 'Sales Experts', roles: ['Sales Representatives', 'Account Executives', 'Business Development Managers'] }
+            { id: 'designers', name: 'Designers', path: 'Designers', roles: ['UI/UX Designers', 'Product Designers', 'Graphic Designers', 'Brand Designers', 'Web Designers', 'Mobile App Designers'] },
+            { id: 'marketing', name: 'Marketing Experts', path: 'MarketingExperts', roles: ['SEO Specialists', 'Content Strategists', 'Growth Hackers', 'Social Media Managers', 'PPC Experts'] },
+            { id: 'management', name: 'Management Consultants', path: 'ManagementConsultants', roles: ['Business Analysts', 'Financial Consultants', 'Strategic Advisors'] },
+            { id: 'researchers', name: 'Researchers', path: 'Researchers', roles: ['Data Scientists', 'Research Scientists', 'UX Researchers', 'Market Researchers', 'AI Researchers', 'Clinical Researchers'] },
+            { id: 'project_managers', name: 'Project Managers', path: 'ProjectManagers', roles: ['Agile Project Managers', 'Scrum Masters', 'Technical Project Managers'] },
+            { id: 'product_managers', name: 'Product Managers', path: 'ProductManagers', roles: ['Technical Product Managers', 'Growth Product Managers', 'Product Strategists'] },
+            { id: 'sales', name: 'Sales Experts', path: 'SalesExperts', roles: ['Sales Representatives', 'Account Executives', 'Business Development Managers'] }
         ]
     },
     team: {
@@ -108,6 +108,22 @@ export default function Navbar() {
     const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
     const router = useRouter();
+    const pathname = usePathname();
+
+    // Map of pathnames to category names for the brand label
+    const categoryLabelMap: Record<string, string> = {
+        '/developers': 'Developers',
+        '/designers': 'Designers',
+        '/marketing-experts': 'Marketing Experts',
+        '/management-consultants': 'Management Consultants',
+        '/researchers': 'Researchers',
+        '/project-managers': 'Project Managers',
+        '/product-managers': 'Product Managers',
+        '/sales-experts': 'Sales Experts',
+    };
+
+    const currentCategoryLabel = categoryLabelMap[pathname || ''];
+    const isCategoryPage = !!currentCategoryLabel;
 
     const handleLogout = async () => {
         await talentXApi.auth.logout();
@@ -131,8 +147,14 @@ export default function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <div className="flex items-center gap-10">
-                        <Link href={createPageUrl('Home')} className="flex items-center gap-2">
+                        <Link href={createPageUrl('Home')} className="flex items-center gap-2 group">
                             <span className="text-2xl font-bold text-[#1a1a2e] tracking-tight">TalentX</span>
+                            {isCategoryPage && (
+                                <span className="text-2xl text-[#1a1a2e] tracking-tight flex items-center">
+                                    <span className="mx-2 text-gray-300 font-light">/</span>
+                                    <span>{currentCategoryLabel}</span>
+                                </span>
+                            )}
                         </Link>
 
                         {/* Desktop Navigation */}
@@ -265,7 +287,7 @@ export default function Navbar() {
                                                                     if (!currentCat) return null;
                                                                     return (
                                                                         <>
-                                                                            <Link href={createPageUrl(`BrowseTalent?category=${currentCat.id}`)} className="inline-flex items-center gap-2 text-lg font-bold text-[#204ecf] hover:underline mb-8">
+                                                                            <Link href={createPageUrl(currentCat.id === 'developers' ? 'Developers' : currentCat.path || `BrowseTalent?category=${currentCat.id}`)} className="inline-flex items-center gap-2 text-lg font-bold text-[#204ecf] hover:underline mb-8">
                                                                                 {currentCat.name} <span className="text-xl">→</span>
                                                                             </Link>
                                                                             <div className="grid grid-cols-3 gap-x-12 gap-y-4">
@@ -420,7 +442,7 @@ export default function Navbar() {
                                                                 {role}
                                                             </Link>
                                                         ))}
-                                                        <Link href={createPageUrl(`BrowseTalent?category=${cat.id}`)} className="block px-4 py-1.5 text-xs font-bold text-[#204ecf]">
+                                                        <Link href={createPageUrl(cat.id === 'developers' ? 'Developers' : cat.path || `BrowseTalent?category=${cat.id}`)} className="block px-4 py-1.5 text-xs font-bold text-[#204ecf]">
                                                             View all {cat.name}
                                                         </Link>
                                                     </div>
